@@ -50,7 +50,7 @@ browser.visit(url_2)
 #buttonclick
 clickbutton = browser.find_by_id('full_image').click()
 
-browser.is_text_present('splinter', wait_time=10) # True, using wait_time
+browser.is_element_present('more info', wait_time=15) # True, using wait_time
 
 #%%
 #Use splinter to navigate the site and find the image url for the current 
@@ -64,7 +64,7 @@ html = browser.html
 soup_1 = BeautifulSoup(html, 'html.parser')
 
 featured_image_url = soup_1.find('figure', class_='lede').a.img
-print("https//www.jpl.nasa.gov/" + featured_image_url['src'])
+print("https://www.jpl.nasa.gov" + featured_image_url['src'])
 
 
 #%%

@@ -13,7 +13,7 @@ mars_scrape = {}
 
 def initBrowser():
     executable_path = {"executable_path": "chromedriver"}
-    return Browser("chrome", **executable_path, headless=True)
+    return Browser("chrome", **executable_path, headless=False)
 
 
 def mars_news(browser):
@@ -33,38 +33,38 @@ def mars_news(browser):
 
 def featured_image(browser):
     #Find the current featured Mars image and scrape
-    url_2 = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
-    browser.visit(url_2)
+    url2 = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
+    browser.visit(url2)
     #Complete button click to image using splinter
     browser.find_by_id('full_image').click()
     browser.is_element_present_by_text('more info', wait_time=5)
-    partial_url = "https//www.jpl.nasa.gov"
+    partial_url = "https://www.jpl.nasa.gov"
     #Get partial link for image using splinter
     browser.find_link_by_partial_text('more info').click()
     #Use BeautifulSoup to scrape the featured image
     html = browser.html
-    soup_1 = BeautifulSoup(html, 'html.parser')
+    soup1 = BeautifulSoup(html, 'html.parser')
     time.sleep(5)
-    featured_image_url = soup_1.find('figure', class_='lede').find('img')['src']
+    featured_image_url = soup1.find('figure', class_='lede').find('img')['src']
     print (featured_image_url)
     return(partial_url + featured_image_url)
     
 
 def mars_weather(browser):
     #Visit Mars Weather Twitter and scrape latest weather tweet
-    url_3 = 'https://twitter.com/marswxreport?lang=en'
-    browser.visit(url_3)
+    url3 = 'https://twitter.com/marswxreport?lang=en'
+    browser.visit(url3)
     #Use Beautiful Soup to scrape the tweet
     html = browser.html
-    soup_2 = BeautifulSoup(html, 'html.parser')
-    mars_weather = soup_2.find('p', class_='TweetTextSize TweetTextSize--normal js-tweet-text tweet-text').text
+    soup2 = BeautifulSoup(html, 'html.parser')
+    mars_weather = soup2.find('p', class_='TweetTextSize TweetTextSize--normal js-tweet-text tweet-text').text
     return(mars_weather)
 
 def mars_facts(browser):
     #Visit Mars Facts webpage and use PANDAS to scrape the table containing Mars Facts
-    url_4 = 'https://space-facts.com/mars/'
+    url4 = 'https://space-facts.com/mars/'
     #Use Pandas to read in the table
-    mars_table = pd.read_html(url_4)
+    mars_table = pd.read_html(url4)
     #Create a dataframe for the table
     df = mars_table[0]
     df.columns = ['Mars Planet Attribute', 'Attribute Value']
@@ -76,8 +76,8 @@ def mars_facts(browser):
 
 def mars_hemispheres(browser):
     #Visit USGS Astogeology site to obtain high resolution images for each Mars Hemisphere
-    url_5 = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
-    browser.visit(url_5)
+    url5 = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url5)
     #User splinter to find the images
     browser.html
     test = browser.find_by_css('div.description')
